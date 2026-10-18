@@ -1,6 +1,6 @@
-import monngoose from "monngoose";
+import mongoose from "mongoose";
 
-const FleetAdminSchema = new monngoose.Schema(
+const FleetAdminSchema = new mongoose.Schema(
     {
         singleton: { 
             type: String, 
@@ -32,4 +32,4 @@ const FleetAdminSchema = new monngoose.Schema(
     }
 ); 
 
-export default monngoose.model("FleetAdmin", FleetAdminSchema);
+export default mongoose.model("FleetAdmin", FleetAdminSchema);

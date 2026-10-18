@@ -12,7 +12,7 @@ const CompanySchema = new mongoose.Schema(
         registrationNo :{
             type : String,
             required : true, 
-            unique: true, 
+            unique: true,  // No two companies can have the same registration number
             trim: true 
         }, 
         country: {
@@ -23,15 +23,15 @@ const CompanySchema = new mongoose.Schema(
         status: {
             type: String, 
             enum: Company_status, 
-            default: "PENDING"
+            default: "PENDING" // New companies are always PENDING until reviewed
         }, 
         RejectionReason : {
-            tyoe :String,
+            type :String,
             deafult: null 
         }, 
         reviewedBy: { 
             type: mongoose.Schema.Types.ObjectId, 
-            ref: "FleetAdmin", 
+            ref: "FleetAdmin",  // Connects to the Fleet Admin who approved/rejected it
             default: null 
         },
         reviewedAt: { 
@@ -40,7 +40,7 @@ const CompanySchema = new mongoose.Schema(
         },
     }, 
     {
-        timestamps: true
+        timestamps: true // Automatically manages createdAt and updatedAt
     }
 ); 
 
