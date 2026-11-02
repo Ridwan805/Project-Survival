@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Sign_up.css";
+import { Link } from "react-router-dom";
 
 const initialForm = {
   firstName: "",
@@ -150,7 +151,7 @@ function Sign_Up() {
           <div className="signup__group signup__group--footer">
             <div className="signup__footer">
               <p className="signup__login">
-                Already have an account. <a href="#">Log In</a>
+                Already have an account. <Link to="/login">Log In</Link>
               </p>
               <button type="submit" className="signup__button">
                 SIGN UP
