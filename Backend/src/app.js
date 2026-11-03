@@ -7,7 +7,11 @@ import companyManagerRouter from "./routes/company_manager.route.js";
 import vesselTypeRouter from "./routes/vessel_type.route.js";
 //new add
 import vesselRouter from "./routes/vessel.route.js";
+//new add 
+import cors from "cors";
+
 const app = express();
+app.use(cors());
 
 // REQUIRED: allows Express to read JSON sent from Postman
 app.use(express.json());

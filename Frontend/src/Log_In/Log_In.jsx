@@ -1,18 +1,58 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Log_in.css";
 
 function Log_In() {
   const [form, setForm] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: connect to backend login API (2FA email check goes here later)
-    console.log("Log in data:", form);
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://localhost:4000/api/v1/company-managers/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Invalid email or password.");
+      }
+
+      // Save user session in localStorage
+      localStorage.setItem("user", JSON.stringify(data.manager));
+      localStorage.setItem("company", JSON.stringify(data.company));
+
+      // Handle Admin Authorization Status:
+      if (data.company.status === "PENDING") {
+        alert("Your company is waiting for approval by the Fleet Administrator. You cannot access fleet features yet.");
+      } else if (data.company.status === "APPROVED") {
+        alert("Login successful! Welcome back.");
+        // Redirect to your dashboard or home page
+        // navigate("/home");
+      } else if (data.company.status === "REJECTED") {
+        alert("Your company registration was rejected.");
+      }
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,8 +95,9 @@ function Log_In() {
           />
         </div>
 
-        <button type="submit" className="login__button">
-          Sign In
+        {error && <p style={{ color: "red", textAlign: "center", marginBottom: "1rem", fontWeight: "bold" }}>{error}</p>}
+        <button type="submit" className="login__button" disabled={loading}>
+          {loading ? "Signing In..." : "Sign In"}
         </button>
 
         <p className="login__signup">
