@@ -1,0 +1,225 @@
+/* Remove default browser whitespace around the page */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: #050d3a;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.signup {
+  display: flex;
+  min-height: 100vh;
+  background: #050d3a;
+  color: #ffffff;
+  font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Left image */
+.signup__image {
+  flex: 0 0 43.5%;
+  background-size: cover;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  animation: imageIn 1.2s ease-out both;
+}
+
+/* Right panel */
+.signup__panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 40px 6%;
+}
+
+.signup__form {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Each group fades in and rises gently, one after another */
+.signup__group {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: groupIn 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.signup__group--intro {
+  gap: 10px;
+  animation-delay: 0.9s;
+}
+
+.signup__group--personal {
+  animation-delay: 1.6s;
+}
+
+.signup__group--company {
+  animation-delay: 2.3s;
+}
+
+.signup__group--footer {
+  animation-delay: 3s;
+}
+
+@keyframes imageIn {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes groupIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup__title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.signup__intro {
+  margin: 0;
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: #d4d7e6;
+}
+
+.signup__row {
+  display: flex;
+  gap: 32px;
+}
+
+.signup__row .signup__field {
+  flex: 1;
+}
+
+.signup__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.signup__field--short {
+  width: 55%;
+}
+
+.signup__field label {
+  font-size: 0.68rem;
+  color: #ffffff;
+}
+
+.signup__field input,
+.signup__field select {
+  height: 25px;
+  padding: 0 8px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  background: #d9d9d9;
+  color: #050d3a;
+  font: inherit;
+  font-size: 0.8rem;
+  width: 100%;
+}
+
+.signup__field input:focus-visible,
+.signup__field select:focus-visible,
+.signup__button:focus-visible,
+.signup__login a:focus-visible {
+  outline: 2px solid #7fb2ff;
+  outline-offset: 2px;
+}
+
+/* Footer row */
+.signup__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.signup__login {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #e6e8f2;
+}
+
+.signup__login a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.signup__button {
+  min-width: 100px;
+  height: 36px;
+  padding: 0 20px;
+  border: 1px solid #ffffff;
+  border-radius: 0;
+  background: #d9d9d9;
+  color: #050d3a;
+  font: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.signup__button:hover {
+  background: #ffffff;
+}
+
+/* Tablet / mobile: stack, image becomes a banner */
+@media (max-width: 800px) {
+  .signup {
+    flex-direction: column;
+  }
+
+  .signup__image {
+    flex: 0 0 200px;
+    background-position: center bottom;
+  }
+
+  .signup__panel {
+    padding: 28px 20px 40px;
+  }
+
+  .signup__row {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .signup__field--short {
+    width: 100%;
+  }
+}
+
+/* Respect people who turn off motion */
+@media (prefers-reduced-motion: reduce) {
+  .signup__image,
+  .signup__group {
+    animation: none;
+  }
+}

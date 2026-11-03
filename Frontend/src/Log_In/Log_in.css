@@ -1,0 +1,188 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.login {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 150px 16px;
+  background: #000000;
+  color: #ffffff;
+  font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Logo pinned to the top centre */
+.login__logo {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: auto;
+  animation: logoIn 1.2s ease-out both;
+}
+
+/* Card sits in the exact middle of the page */
+.login__card {
+  width: 100%;
+  max-width: 420px;
+  min-height: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 44px 32px 36px;
+  background: #d9d9d9;
+  color: #111111;
+  animation: cardIn 1s ease-out 0.9s both;
+}
+
+/* Everything inside the card appears step by step */
+.login__card > * {
+  animation: groupIn 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* Step 3: title + description */
+.login__card > :nth-child(1),
+.login__card > :nth-child(2) {
+  animation-delay: 1.6s;
+}
+
+/* Step 4: email + password */
+.login__card > :nth-child(3),
+.login__card > :nth-child(4) {
+  animation-delay: 2.3s;
+}
+
+/* Step 5: sign in button + sign up link */
+.login__card > :nth-child(5),
+.login__card > :nth-child(6) {
+  animation-delay: 3s;
+}
+
+@keyframes logoIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes groupIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login__title {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.login__note {
+  margin: 0 0 10px;
+  font-size: 0.6rem;
+  line-height: 1.5;
+  color: #222222;
+}
+
+.login__field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.login__field label {
+  font-size: 0.7rem;
+}
+
+.login__field input {
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid #555555;
+  border-radius: 0;
+  background: #d9d9d9;
+  color: #111111;
+  font: inherit;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+.login__field input:focus-visible,
+.login__button:focus-visible,
+.login__signup a:focus-visible {
+  outline: 2px solid #1f4fd8;
+  outline-offset: 2px;
+}
+
+.login__button {
+  height: 38px;
+  margin-top: 6px;
+  border: 1px solid #555555;
+  border-radius: 0;
+  background: #d9d9d9;
+  color: #111111;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.login__button:hover {
+  background: #ffffff;
+}
+
+.login__signup {
+  margin: 0;
+  font-size: 0.7rem;
+}
+
+.login__signup a {
+  color: #111111;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.login__signup a:hover {
+  text-decoration: underline;
+}
+
+/* Respect people who turn off motion */
+@media (prefers-reduced-motion: reduce) {
+  .login__logo,
+  .login__card,
+  .login__card > * {
+    animation: none;
+  }
+}
