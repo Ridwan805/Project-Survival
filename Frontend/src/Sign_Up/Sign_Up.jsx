@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Sign_up.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 
 const initialForm = {
   firstName: "",
@@ -14,15 +14,66 @@ const initialForm = {
 
 function Sign_Up() {
   const [form, setForm] = useState(initialForm);
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: connect to backend sign up API
-    console.log("Sign up data:", form);
+    setError("");
+    setLoading(true);
+
+    try {
+      // 1. Register the Company in MongoDB (Status will be PENDING)
+      const companyRes = await fetch("http://localhost:4000/api/v1/companies/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.companyName,
+          registrationNo: form.registrationNumber,
+          country: form.country,
+        }),
+      });
+
+      const companyData = await companyRes.json();
+
+      if (!companyRes.ok) {
+        throw new Error(companyData.message || "Failed to register company.");
+      }
+
+      // Grab the new company's ID from the database
+      const newCompanyId = companyData.company._id;
+
+      // 2. Register the Company Manager linked to that Company ID
+      const managerRes = await fetch("http://localhost:4000/api/v1/company-managers/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+          companyId: newCompanyId,
+        }),
+      });
+
+      const managerData = await managerRes.json();
+
+      if (!managerRes.ok) {
+        throw new Error(managerData.message || "Failed to register manager.");
+      }
+
+      // 3. Inform user about the pending Fleet Admin authorization
+      alert("Registration submitted! Your company is waiting for Fleet Administrator approval.");
+      navigate("/login");
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -151,10 +202,11 @@ function Sign_Up() {
           <div className="signup__group signup__group--footer">
             <div className="signup__footer">
               <p className="signup__login">
-                Already have an account. <Link to="/login">Log In</Link>
+                Already have an account? <Link to="/login">Log In</Link>
               </p>
-              <button type="submit" className="signup__button">
-                SIGN UP
+              {error && <p style={{ color: "red", width: "100%", margin: "0.5rem 0", fontWeight: "bold" }}>{error}</p>}
+              <button type="submit" className="signup__button" disabled={loading}>
+                {loading ? "REGISTERING..." : "SIGN UP"}
               </button>
             </div>
           </div>

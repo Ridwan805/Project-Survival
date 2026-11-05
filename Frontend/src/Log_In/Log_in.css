@@ -19,9 +19,32 @@ body,
   align-items: center;
   justify-content: center;
   padding: 150px 16px;
-  background: #000000;
   color: #ffffff;
   font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+  overflow: hidden; /* prevents blurred edges from overflowing the screen */
+}
+
+/* Background image with blur and #230b8f color overlay */
+.login::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  /* #230b8f converted to rgb(35, 11, 143) with 0.65 opacity overlay */
+  background: 
+    linear-gradient(rgba(87, 85, 99, 0.65), rgba(35, 11, 143, 0.65)),
+    url("G:\Project-Survival\Frontend\public\Login\login_bg.png") center 55%/cover no-repeat;
+  filter: blur(6px); /* controls the softness/blur of the image */
+  z-index: 0;
+}
+
+/* Ensure the logo and card stay on top of the background */
+.login__logo,
+.login__card {
+  position: relative;
+  z-index: 1;
 }
 
 /* Logo pinned to the top centre */
@@ -169,7 +192,7 @@ body,
 }
 
 .login__signup a {
-  color: #111111;
+  color: #0f0f0f;
   font-weight: 700;
   text-decoration: none;
 }
